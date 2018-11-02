@@ -1,8 +1,8 @@
 provider "aws" {
 
-         region = "us-east-1"
+         region    = "us-east-1"
          assume_role {
-	  role_arn = "arn:aws:iam::XXXXXX:role/fullperm"
+	  role_arn = "arn:aws:iam:::role/fullperm"
 		
 	}
 }

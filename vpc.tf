@@ -1,45 +1,45 @@
-resource "aws_vpc" "myvpc" {
+resource "aws_vpc" "vpc" {
 	cidr_block = "10.0.0.0/20"
 	tags {
-	 Name = "myvpc"
+	 Name      = "us_east1_vpc"
 	}
 }
 
-resource "aws_subnet" "mysubnet" {
-	vpc_id     = "${aws_vpc.myvpc.id}"
-	cidr_block = "10.0.1.0/24"
+resource "aws_subnet" "public_subnet" {
+	vpc_id                  = "${aws_vpc.vpc.id}"
+	cidr_block              = "10.0.1.0/24"
 	map_public_ip_on_launch = "True"
-	availability_zone = "us-east-1a"
+	availability_zone       = "us-east-1a"
 	tags {
-	 Name      = "Public_subnet"
+	 Name                   = "public_subnet"
    }
 
 }
 
-resource "aws_subnet" "myprivate" {
-	vpc_id     = "${aws_vpc.myvpc.id}"
-	cidr_block = "10.0.2.0/24"
+resource "aws_subnet" "private_subnet" {
+	vpc_id            = "${aws_vpc.vpc.id}"
+	cidr_block        = "10.0.2.0/24"
 	availability_zone = "us-east-1a"
 	tags {
-	     Name  = "Private_subnet "
+	     Name         = "private_subnet "
 	}
 }
 
-resource "aws_internet_gateway" "my_gateway" {
-	vpc_id = "${aws_vpc.myvpc.id}"
+resource "aws_internet_gateway" "vpc_gateway" {
+	vpc_id    = "${aws_vpc.vpc.id}"
 	tags {
-	 Name = "my_igw"
+	 Name     = "vpc_igw"
 	}
 }
 
-resource "aws_route_table" "myroute" {
-	vpc_id = "${aws_vpc.myvpc.id}"
+resource "aws_route_table" "public_route" {
+	vpc_id     = "${aws_vpc.vpc.id}"
 	route {
 	cidr_block = "0.0.0.0/0"
-	gateway_id = "${aws_internet_gateway.my_gateway.id}"
+	gateway_id = "${aws_internet_gateway.vpc_gateway.id}"
 	}
 	tags {
-	 Name = "publicroute"
+	 Name      = "public_route"
 	}	
 }
 

@@ -1,10 +1,10 @@
-resource "aws_instance" "test" {
+resource "aws_instance" "public" {
   
-     ami = "ami-0ff8a91507f77f867"
-     instance_type = "t2.micro"
-     subnet_id = "${aws_subnet.mysubnet.id}"
-     security_groups = ["${aws_security_group.mycustomgroup.id}"]     
-     key_name    = "rootkey"
+     ami             = "ami-0ff8a91507f77f867"
+     instance_type   = "t2.micro"
+     subnet_id       = "${aws_subnet.public_subnet.id}"
+     security_groups = ["${aws_security_group.security_group.id}"]     
+     key_name        = "rootkey"
      user_data   = <<-EOF
 		   #!/bin/bash
 		  sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
@@ -18,7 +18,7 @@ resource "aws_instance" "test" {
                   sudo yum install -y ansible
                   EOF
      tags {
-      Name = "public_box"
+         Name        = "public_box"
         }
 	
 
@@ -26,14 +26,14 @@ resource "aws_instance" "test" {
 	
 
 resource "aws_instance" "private" {
-	ami = "ami-0ac019f4fcb7cb7e6"
-	instance_type = "t2.micro"
-	subnet_id = "${aws_subnet.myprivate.id}"
-	security_groups = ["${aws_security_group.mycustomgroup.id}"]
+	ami             = "ami-0ac019f4fcb7cb7e6"
+	instance_type   = "t2.micro"
+	subnet_id       = "${aws_subnet.private_subnet.id}"
+	security_groups = ["${aws_security_group.security_group.id}"]
 	tags {
-	 Name = "private_box"
+	 Name           = "private_box"
 	 }
-	key_name = "rootkey"
+	key_name        = "rootkey"
 }
 
 
