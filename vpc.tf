@@ -1,5 +1,5 @@
 resource "aws_vpc" "vpc" {
-	cidr_block = "10.0.0.0/20"
+	cidr_block = "172.20.0.0/16"
 	tags {
 	 Name      = "us_east1_vpc"
 	}
@@ -7,7 +7,7 @@ resource "aws_vpc" "vpc" {
 
 resource "aws_subnet" "public_subnet" {
 	vpc_id                  = "${aws_vpc.vpc.id}"
-	cidr_block              = "10.0.1.0/24"
+	cidr_block              = "172.20.10.0/24"
 	map_public_ip_on_launch = "True"
 	availability_zone       = "us-east-1a"
 	tags {
@@ -18,7 +18,7 @@ resource "aws_subnet" "public_subnet" {
 
 resource "aws_subnet" "private_subnet" {
 	vpc_id            = "${aws_vpc.vpc.id}"
-	cidr_block        = "10.0.2.0/24"
+	cidr_block        = "172.20.20.0/24"
 	availability_zone = "us-east-1a"
 	tags {
 	     Name         = "private_subnet "
