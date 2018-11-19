@@ -1,0 +1,37 @@
+---
+ - hosts: all
+   gather_facts: false
+   tasks:
+           - name : copy artificats to apps server
+             copy :
+                     src: location of jar build 
+                     dest: /mnt/
+
+           - name: install java
+             apt:
+                     name: default-jdk
+                     state: latest
+
+
+
+           - name: install unzip
+             apt:
+                     name: unzip
+                     state: latest
+
+           - name: install tomcat
+             shell: wget http://www-us.apache.org/dist/tomcat/tomcat-8/v8.5.34/bin/apache-tomcat-8.5.34.zip;unzip apache-tomcat-8.5.34.zip
+             register: result
+           - debug:
+                   var: result.stdout_lines
+
+           - name: start application
+             shell: nohup java -jar /mnt/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar </dev/null >/dev/null 2>&1 &
+             register: app_result
+           - debug:
+                   var: app_result.stdout.lines
+
+             tags:
+                     - app
+
+
